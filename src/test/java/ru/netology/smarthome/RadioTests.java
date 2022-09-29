@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class RadioTests {
 
-    // Тесты на переключение станций
+    // Тесты на переключение станций при количестве станций по умолчанию
 
     // Проверяем граничные валидные значения при переключении станций вперёд
 
@@ -159,6 +159,101 @@ public class RadioTests {
         Assertions.assertEquals(expected, actual);
     }
 
+    // Тесты на переключение станций при задающемся количестве станций
+
+    // Проверяем граничные валидные значения при переключении станций вперёд
+
+    @Test
+    public void shouldSwitchToTheNextStationIfNowThirtyOneStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(31);
+
+        station.nextStation();
+        int expected = 32;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSwitchToTheZeroStationIfNowThirtySecondStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(32);
+
+        station.nextStation();
+        int expected = 0;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    // Проверяем граничные валидные значения при переключении станций назад
+
+    @Test
+    public void shouldSwitchToThePrevStationIfNowThirtySecondStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(32);
+
+        station.prevStation();
+        int expected = 31;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSwitchToThePrevStationIfNowZeroStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(0);
+
+        station.prevStation();
+        int expected = 32;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+
+    // Проверяем эквивалентные валидные значения при переключении станций вперёд/назад
+
+    @Test
+    public void shouldSwitchToTheNextStationIfNowFifteenthStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(15);
+
+        station.nextStation();
+        int expected = 16;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void shouldSwitchToThePrevStationIfNowTwentyNinthStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(29);
+
+        station.prevStation();
+        int expected = 28;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    // Проверяем невалидные значения при переключении станций вперёд/назад
+
+    @Test
+    public void notShouldSwitchToTheNextStationIfNowThirtyFourthStation() {
+        Radio station = new Radio(33);
+        station.setCurrentStation(34);
+
+        station.nextStation();
+        int expected = 0;
+        int actual = station.getCurrentStation();
+
+        Assertions.assertEquals(expected, actual);
+    }
+
     // Тесты на регулирование звука
 
     // Проверяем граничные валидные значения при увеличении громкости звука
@@ -190,10 +285,10 @@ public class RadioTests {
     @Test
     public void shouldIncreaseIfTheVolumeIsNine() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(9);
+        volume.setCurrentVolume(99);
 
         volume.increaseVolume();
-        int expected = 10;
+        int expected = 100;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
@@ -202,10 +297,10 @@ public class RadioTests {
     @Test
     public void notShouldIncreaseIfTheVolumeIsTen() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(10);
+        volume.setCurrentVolume(100);
 
         volume.increaseVolume();
-        int expected = 10;
+        int expected = 100;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
@@ -216,10 +311,10 @@ public class RadioTests {
     @Test
     public void shouldReduceIfTheVolumeIsTen() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(10);
+        volume.setCurrentVolume(100);
 
         volume.reduceVolume();
-        int expected = 9;
+        int expected = 99;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
@@ -228,10 +323,10 @@ public class RadioTests {
     @Test
     public void shouldReduceIfTheVolumeIsNine() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(9);
+        volume.setCurrentVolume(99);
 
         volume.reduceVolume();
-        int expected = 8;
+        int expected = 98;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
@@ -266,10 +361,10 @@ public class RadioTests {
     @Test
     public void shouldIncreaseIfTheVolumeIsThree() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(3);
+        volume.setCurrentVolume(59);
 
         volume.increaseVolume();
-        int expected = 4;
+        int expected = 60;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
@@ -278,10 +373,10 @@ public class RadioTests {
     @Test
     public void shouldReduceIfTheVolumeIsSeven() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(7);
+        volume.setCurrentVolume(74);
 
         volume.reduceVolume();
-        int expected = 6;
+        int expected = 73;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
@@ -304,10 +399,10 @@ public class RadioTests {
     @Test
     public void notShouldIncreaseIfTheVolumeIsAboveToTen() {
         Radio volume = new Radio();
-        volume.setCurrentVolume(11);
+        volume.setCurrentVolume(111);
 
         volume.increaseVolume();
-        int expected = 10;
+        int expected = 100;
         int actual = volume.getCurrentVolume();
 
         Assertions.assertEquals(expected, actual);
